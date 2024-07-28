@@ -1,0 +1,3 @@
+[submodule "ehrbase-plugin"]
+	path = ehrbase-plugin
+	url = https://github.com/medblocks/ehrbase-plugin.git

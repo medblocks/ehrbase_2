@@ -205,4 +205,4 @@ vulnerability_analysis.json
 .pgdata
 application/.pgdata
 /plugin_dir/
-/plugin_config_dir/
+# /plugin_config_dir/

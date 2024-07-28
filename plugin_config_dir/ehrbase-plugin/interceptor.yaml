@@ -1,0 +1,6 @@
+interceptor:
+  db:
+    analytics_schema: analytics
+    analytics_table: resources
+    audit_schema: audit
+    audit_table: logs
