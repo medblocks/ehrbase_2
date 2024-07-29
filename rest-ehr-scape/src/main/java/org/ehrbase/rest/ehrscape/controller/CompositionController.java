@@ -49,6 +49,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -80,7 +81,7 @@ public class CompositionController extends BaseController {
     public ResponseEntity<CompositionWriteRestResponseData> createComposition(
             @RequestParam(value = "format", defaultValue = "XML") CompositionFormat format,
             @RequestParam(value = "templateId", required = false) String templateId,
-            @RequestParam(value = "ehrId") UUID ehrId,
+            @RequestParam(value = "ehrId") UUID ehrId, @RequestHeader(value = "X-User", required = false) String x_user,
             @RequestBody String content) {
 
         if ((format == CompositionFormat.FLAT
@@ -93,7 +94,7 @@ public class CompositionController extends BaseController {
 
         var composition = compositionService.buildComposition(content, format, templateId);
         var compositionUuid = compositionService
-                .create(ehrId, composition)
+                .create(ehrId, composition, x_user)
                 .orElseThrow(() -> new InternalServerException("Failed to create composition"));
 
         var responseData = new CompositionWriteRestResponseData();
@@ -166,6 +167,7 @@ public class CompositionController extends BaseController {
             @PathVariable("uid") String compositionUid,
             @RequestParam(value = "format", defaultValue = "XML") CompositionFormat format,
             @RequestParam(value = "templateId", required = false) String templateId,
+            @RequestHeader(value = "X-User", required = false) String x_user,
             @RequestBody String content) {
 
         if ((format == CompositionFormat.FLAT
@@ -183,7 +185,7 @@ public class CompositionController extends BaseController {
         var compoObj = compositionService.buildComposition(content, format, templateId);
 
         // Actual update
-        Optional<UUID> dtoOptional = compositionService.update(ehrId, objectVersionId, compoObj);
+        Optional<UUID> dtoOptional = compositionService.update(ehrId, objectVersionId, compoObj, x_user);
 
         var compositionVersionUid = dtoOptional
                 .orElseThrow(() -> new InternalServerException("Failed to create composition"))
@@ -203,13 +205,13 @@ public class CompositionController extends BaseController {
                     "Replaced by [/rest/openehr/v1/ehr/{ehr_id}/composition/{versioned_object_uid}](./index.html?urls.primaryName=1.%20openEHR%20API#/COMPOSITION/deleteComposition)",
             deprecated = true)
     @Deprecated(since = "2.0.0", forRemoval = true)
-    public ResponseEntity<ActionRestResponseData> delete(@PathVariable("uid") String compositionUid) {
+    public ResponseEntity<ActionRestResponseData> delete(@PathVariable("uid") String compositionUid, @RequestHeader(value = "X-User", required = false) String x_user) {
 
         ObjectVersionId objectVersionId = getObjectVersionId(compositionUid);
         UUID compositionIdentifier = getCompositionIdentifier(compositionUid);
         UUID ehrId = getEhrIdForComposition(compositionIdentifier);
 
-        compositionService.delete(ehrId, objectVersionId);
+        compositionService.delete(ehrId, objectVersionId, x_user);
         ActionRestResponseData responseData = new ActionRestResponseData();
         responseData.setAction(Action.DELETE);
         responseData.setMeta(buildMeta(""));

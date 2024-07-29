@@ -40,7 +40,7 @@ import org.springframework.stereotype.Component;
 public class EhrPluginAspect extends AbstractPluginAspect<EhrExtensionPoint> {
 
     private static final Function<Object[], EhrStatusWithEhrId> STATUS_WITH_ID_INPUT_FUNCTION =
-            args -> new EhrStatusWithEhrId((EhrStatus) args[1], (UUID) args[0]);
+            args -> new EhrStatusWithEhrId((EhrStatus) args[1], (UUID) args[0], (String) args[2]);
     private static final BiFunction<EhrStatusWithEhrId, Object[], Object[]> STATUS_WITH_ID_SET_ARGS_FUNCTION =
             (i, args) -> {
                 args[1] = i.getEhrStatus();

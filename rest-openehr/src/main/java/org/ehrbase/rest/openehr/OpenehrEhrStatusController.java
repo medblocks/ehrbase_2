@@ -129,12 +129,13 @@ public class OpenehrEhrStatusController extends BaseController implements EhrSta
             @RequestHeader(name = PREFER, required = false) String prefer,
             @RequestHeader(name = HttpHeaders.ACCEPT, required = false) String accept,
             @RequestHeader(name = HttpHeaders.CONTENT_TYPE, required = false) String contentType,
+            @RequestHeader(value = "X-User", required = false) String x_user,
             @RequestBody EhrStatus ehrStatus) {
 
         // update EHR_STATUS and check for success
         ObjectVersionId targetObjId = new ObjectVersionId(versionUid);
 
-        ObjectVersionId statusUid = ehrService.updateStatus(ehrId, ehrStatus, targetObjId, null, null);
+        ObjectVersionId statusUid = ehrService.updateStatus(ehrId, ehrStatus, x_user,targetObjId, null, null);
 
         // update and prepare current version number
         int version = extractVersionFromVersionUid(statusUid.getValue()).orElseThrow();

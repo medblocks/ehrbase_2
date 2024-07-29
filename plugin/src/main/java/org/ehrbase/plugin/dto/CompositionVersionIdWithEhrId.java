@@ -28,10 +28,15 @@ public class CompositionVersionIdWithEhrId {
 
     private final UUID ehrId;
     private final ObjectVersionId versionId;
-
+    private String x_user;
     public CompositionVersionIdWithEhrId(ObjectVersionId versionId, UUID ehrId) {
         this.ehrId = ehrId;
         this.versionId = versionId;
+    }
+    public CompositionVersionIdWithEhrId(ObjectVersionId versionId, UUID ehrId, String x_user) {
+        this.ehrId = ehrId;
+        this.versionId = versionId;
+        this.x_user = x_user;
     }
 
     public UUID getEhrId() {
@@ -62,5 +67,8 @@ public class CompositionVersionIdWithEhrId {
     @Override
     public String toString() {
         return "CompositionVersionIdWithEhrId{" + "ehrId=" + ehrId + ", versionId=" + versionId + '}';
+    }
+    public String getX_User(){
+        return x_user;
     }
 }

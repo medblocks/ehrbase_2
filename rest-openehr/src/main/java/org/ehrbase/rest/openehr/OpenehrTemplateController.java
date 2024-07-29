@@ -87,13 +87,14 @@ public class OpenehrTemplateController extends BaseController implements Templat
             @RequestHeader(value = OPENEHR_VERSION, required = false) String openehrVersion,
             @RequestHeader(value = OPENEHR_AUDIT_DETAILS, required = false) String openehrAuditDetails,
             @RequestHeader(value = PREFER, required = false) String prefer,
+            @RequestHeader(value = "X-User", required = false) String x_user,
             @RequestBody String template) {
 
         // create template
         String templateId;
         try (var input = new ByteArrayInputStream(template.getBytes(StandardCharsets.UTF_8))) {
             TemplateDocument document = TemplateDocument.Factory.parse(input);
-            templateId = templateService.create(document.getTemplate());
+            templateId = templateService.create(document.getTemplate(), x_user);
         } catch (XmlException | IOException e) {
             throw new InvalidApiParameterException(e.getMessage());
         }

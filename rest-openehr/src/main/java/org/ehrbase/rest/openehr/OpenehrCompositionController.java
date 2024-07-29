@@ -112,6 +112,7 @@ public class OpenehrCompositionController extends BaseController implements Comp
             @PathVariable(value = "ehr_id") String ehrIdString,
             @RequestParam(value = "templateId", required = false) String templateId,
             @RequestParam(value = "format", required = false) String format,
+            @RequestHeader(value = "X-User", required = false) String x_user,
             @RequestBody String composition) {
 
         var ehrId = getEhrUuid(ehrIdString);
@@ -121,7 +122,7 @@ public class OpenehrCompositionController extends BaseController implements Comp
 
         var compoObj = compositionService.buildComposition(composition, requestRepresentation.format, templateId);
         var compositionUuid = compositionService
-                .create(ehrId, compoObj)
+                .create(ehrId, compoObj, x_user)
                 .orElseThrow(() -> new InternalServerException("Failed to create composition"));
         URI uri = createLocationUri(EHR, ehrId.toString(), COMPOSITION, compositionUuid.toString());
 
@@ -171,6 +172,7 @@ public class OpenehrCompositionController extends BaseController implements Comp
             @PathVariable(value = "versioned_object_uid") String versionedObjectUidString,
             @RequestParam(value = "templateId", required = false) String templateId,
             @RequestParam(value = "format", required = false) String format,
+            @RequestHeader(value = "X-User", required = false) String x_user,
             @RequestBody String composition) {
 
         UUID ehrId = getEhrUuid(ehrIdString);
@@ -199,7 +201,7 @@ public class OpenehrCompositionController extends BaseController implements Comp
             ObjectVersionId ifMatchId = new ObjectVersionId(ifMatch);
             // ifMatch header has to be tested for correctness already above
             String compositionVersionUid = compositionService
-                    .update(ehrId, ifMatchId, compoObj)
+                    .update(ehrId, ifMatchId, compoObj, x_user)
                     .orElseThrow(() -> new InternalServerException("Failed to create composition"))
                     .toString();
 
@@ -240,7 +242,9 @@ public class OpenehrCompositionController extends BaseController implements Comp
             @RequestHeader(value = "openEHR-VERSION", required = false) String openehrVersion,
             @RequestHeader(value = "openEHR-AUDIT_DETAILS", required = false) String openehrAuditDetails,
             @PathVariable(value = "ehr_id") String ehrIdString,
-            @PathVariable(value = "preceding_version_uid") String precedingVersionUid) {
+            @PathVariable(value = "preceding_version_uid"
+            ) String precedingVersionUid,
+            @RequestHeader(value = "X-User", required = false) String x_user) {
         UUID ehrId = getEhrUuid(ehrIdString);
 
         HttpHeaders headers = new HttpHeaders();
@@ -250,7 +254,7 @@ public class OpenehrCompositionController extends BaseController implements Comp
         try { // the actual deleting
             // precedingVersionUid needs to be checked already
             ObjectVersionId targetObjId = new ObjectVersionId(precedingVersionUid);
-            compositionService.delete(ehrId, targetObjId);
+            compositionService.delete(ehrId, targetObjId, x_user);
 
             // set next deleted version
             int nextVersion = Integer.parseInt(targetObjId.getVersionTreeId().getValue()) + 1;

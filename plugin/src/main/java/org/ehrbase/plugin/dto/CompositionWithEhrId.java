@@ -28,10 +28,15 @@ public class CompositionWithEhrId {
 
     private final Composition composition;
     private final UUID ehrId;
-
+    private String x_user; 
     public CompositionWithEhrId(Composition composition, UUID ehrId) {
         this.composition = composition;
         this.ehrId = ehrId;
+    }
+    public CompositionWithEhrId(Composition composition, UUID ehrId, String x_user) {
+        this.composition = composition;
+        this.ehrId = ehrId;
+        this.x_user = x_user;
     }
 
     public Composition getComposition() {
@@ -58,5 +63,8 @@ public class CompositionWithEhrId {
     @Override
     public String toString() {
         return "CompositionMergeInput{" + "composition=" + composition + ", ehrId=" + ehrId + '}';
+    }
+    public String getX_User(){
+        return x_user;
     }
 }

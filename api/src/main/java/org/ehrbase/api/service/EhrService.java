@@ -35,14 +35,15 @@ import org.ehrbase.api.exception.StateConflictException;
 
 public interface EhrService {
     /**
-     * Creates new EHR instance, with default settings and values when no status or ID is supplied.
+     * Creates new EHR instance, with default settings and values when no status or
+     * ID is supplied.
      *
-     * @param ehrId Optional, sets custom ID
+     * @param ehrId  Optional, sets custom ID
      * @param status Optional, sets custom status
      * @return UUID of new EHR instance
      * @throws InternalServerException when unspecified error occurs
      */
-    UUID create(UUID ehrId, EhrStatus status);
+    UUID create(UUID ehrId, EhrStatus status, String x_user);
 
     /**
      * Gets latest EHR_STATUS of the given EHR.
@@ -70,12 +71,18 @@ public interface EhrService {
      * @param contribution Optional ID of custom contribution. Can be null.
      * @param audit
      * @return {@link UUID} of the updated status
-     * @throws org.ehrbase.api.exception.ObjectNotFoundException      when given ehrId cannot be found
-     * @throws org.ehrbase.api.exception.InvalidApiParameterException when given status is invalid,
-     *                                                                e.g. not a valid openEHR RM object
+     * @throws org.ehrbase.api.exception.ObjectNotFoundException      when given
+     *                                                                ehrId cannot
+     *                                                                be found
+     * @throws org.ehrbase.api.exception.InvalidApiParameterException when given
+     *                                                                status is
+     *                                                                invalid,
+     *                                                                e.g. not a
+     *                                                                valid openEHR
+     *                                                                RM object
      */
     ObjectVersionId updateStatus(
-            UUID ehrId, EhrStatus status, ObjectVersionId targetObjId, UUID contribution, UUID audit);
+            UUID ehrId, EhrStatus status, String x_user, ObjectVersionId targetObjId, UUID contribution, UUID audit);
 
     Optional<UUID> findBySubject(String subjectId, String nameSpace);
 
@@ -90,7 +97,8 @@ public interface EhrService {
     DvDateTime getCreationTime(UUID ehrId);
 
     /**
-     * Get version number of EHR_STATUS associated with given EHR UID at given timestamp.
+     * Get version number of EHR_STATUS associated with given EHR UID at given
+     * timestamp.
      *
      * @param ehrUid    EHR UID
      * @param timestamp Timestamp of point in time
@@ -108,7 +116,8 @@ public interface EhrService {
     boolean hasEhr(UUID ehrId);
 
     /**
-     * Returns true if an EHR_STATUS for the given EHR ID exists and has the is_modifiable flag set to true.
+     * Returns true if an EHR_STATUS for the given EHR ID exists and has the
+     * is_modifiable flag set to true.
      *
      * @param ehrId EHR ID to check
      * @return flag value (true/false) if EHR exists, null otherwise
@@ -132,14 +141,16 @@ public interface EhrService {
     RevisionHistory getRevisionHistoryOfVersionedEhrStatus(UUID ehrUid);
 
     /**
-     * Admin method to delete an EHR from the DB. See EHRbase Admin API specification for details.
+     * Admin method to delete an EHR from the DB. See EHRbase Admin API
+     * specification for details.
      *
      * @param ehrId EHR to delete
      */
     void adminDeleteEhr(UUID ehrId);
 
     /**
-     * Helper to directly get the external subject reference form the linked subject to given EHR.
+     * Helper to directly get the external subject reference form the linked subject
+     * to given EHR.
      *
      * @param ehrId Given EHR ID
      * @return Linked external subject reference or null
@@ -163,7 +174,8 @@ public interface EhrService {
     /**
      * Checks if the EHR with the given UUID is modifiable.
      * Throws {@link ObjectNotFoundException} if no EHR is found.
-     * Throws {@link GeneralRequestProcessingException} if the EHR is not modifiable.
+     * Throws {@link GeneralRequestProcessingException} if the EHR is not
+     * modifiable.
      *
      * @param ehrId EHR ID to check
      */

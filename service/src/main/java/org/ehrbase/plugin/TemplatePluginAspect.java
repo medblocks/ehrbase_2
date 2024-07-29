@@ -22,6 +22,7 @@ import static org.ehrbase.plugin.PluginHelper.PLUGIN_MANAGER_PREFIX;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.ehrbase.plugin.dto.TemplateWithXUser;
 import org.ehrbase.plugin.extensionpoints.TemplateExtensionPoint;
 import org.openehr.schemas.v1.OPERATIONALTEMPLATE;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -50,8 +51,8 @@ public class TemplatePluginAspect extends AbstractPluginAspect<TemplateExtension
     public Object aroundCreateTemplate(ProceedingJoinPoint pjp) {
 
         return proceedWithPluginExtensionPoints(
-                pjp, TemplateExtensionPoint::aroundCreation, args -> (OPERATIONALTEMPLATE) args[0], (i, args) -> {
-                    args[0] = i;
+                pjp, TemplateExtensionPoint::aroundCreation, args -> (TemplateWithXUser) new TemplateWithXUser((OPERATIONALTEMPLATE) args[0], (String)args[1]), (i, args) -> {
+                    args[0] = i.getOperationalTemplate();
                     return args;
                 });
     }

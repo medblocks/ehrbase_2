@@ -82,8 +82,8 @@ class OpenehrEhrControllerTest {
 
         UUID ehrId = UUID.fromString("a6ddec4c-a68a-49ef-963e-3e0bc1970a28");
         runCreateTest(ehrId, null, prefer, () -> {
-            when(mockEhrService.create(isNull(), any())).thenReturn(ehrId);
-            return controller().createEhr("1.0.3", null, prefer, null);
+            when(mockEhrService.create(isNull(), any(), null)).thenReturn(ehrId);
+            return controller().createEhr("1.0.3", null, prefer, null,null);
         });
     }
 
@@ -95,8 +95,8 @@ class OpenehrEhrControllerTest {
                 "openEHR-EHR-EHR_STATUS.generic.v1", new DvText("EHR Status"), new PartySelf(), true, true, null);
         UUID ehrId = UUID.fromString("a6ddec4c-a68a-49ef-963e-3e0bc1970a28");
         runCreateTest(ehrId, ehrStatus, prefer, () -> {
-            when(mockEhrService.create(isNull(), any())).thenReturn(ehrId);
-            return controller().createEhr("1.0.3", null, prefer, ehrStatus);
+            when(mockEhrService.create(isNull(), any(), null)).thenReturn(ehrId);
+            return controller().createEhr("1.0.3", null, prefer,null, ehrStatus);
         });
     }
 
@@ -106,8 +106,8 @@ class OpenehrEhrControllerTest {
 
         UUID ehrId = UUID.fromString("a6ddec4c-a68a-49ef-963e-3e0bc1970a28");
         runCreateTest(ehrId, null, prefer, () -> {
-            when(mockEhrService.create(eq(ehrId), any())).thenReturn(ehrId);
-            return controller().createEhrWithId("1.0.3", null, prefer, ehrId.toString(), null);
+            when(mockEhrService.create(eq(ehrId), any(), null)).thenReturn(ehrId);
+            return controller().createEhrWithId("1.0.3", null, prefer, ehrId.toString(),null, null);
         });
     }
 
@@ -119,8 +119,8 @@ class OpenehrEhrControllerTest {
         var ehrStatus = new EhrStatus(
                 "openEHR-EHR-EHR_STATUS.generic.v1", new DvText("EHR Status"), new PartySelf(), true, true, null);
         runCreateTest(ehrId, ehrStatus, prefer, () -> {
-            when(mockEhrService.create(eq(ehrId), any())).thenReturn(ehrId);
-            return controller().createEhrWithId("1.0.3", null, prefer, ehrId.toString(), ehrStatus);
+            when(mockEhrService.create(eq(ehrId), any(), null)).thenReturn(ehrId);
+            return controller().createEhrWithId("1.0.3", null, prefer, ehrId.toString(),null, ehrStatus);
         });
     }
 
@@ -128,7 +128,7 @@ class OpenehrEhrControllerTest {
     void createEhrWithIdInvalidUUID() {
 
         OpenehrEhrController controller = controller();
-        assertThatThrownBy(() -> controller.createEhrWithId("1.0.3", null, null, "invalid", null))
+        assertThatThrownBy(() -> controller.createEhrWithId("1.0.3", null, null, "invalid",null, null))
                 .isInstanceOf(InvalidApiParameterException.class)
                 .hasMessage("EHR ID format not a UUID");
     }

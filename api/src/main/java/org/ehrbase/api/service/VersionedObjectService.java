@@ -25,18 +25,23 @@ import org.ehrbase.openehr.sdk.response.dto.ehrscape.FolderDto;
 
 /**
  * Service layer interface for versioned openEHR objects.<br>
- * Helps to always handle the necessary metadata and streamlines C(R)UD operations.<br>
+ * Helps to always handle the necessary metadata and streamlines C(R)UD
+ * operations.<br>
  * Retrieval is
- * @param <T> Class of target versioned object, e.g. {@link com.nedap.archie.rm.directory.Folder}.
- * @param <U> Class of return value of create and update methods. For instance, {@link FolderDto}. Will be wrapped in an {@link Optional}.
+ * 
+ * @param <T> Class of target versioned object, e.g.
+ *            {@link com.nedap.archie.rm.directory.Folder}.
+ * @param <U> Class of return value of create and update methods. For instance,
+ *            {@link FolderDto}. Will be wrapped in an {@link Optional}.
  */
 public interface VersionedObjectService<T extends Locatable, U> {
 
     /**
      * Creation with given audit meta-data. Will create a new ad-hoc contribution.
-     * @param ehrId EHR ID of context
-     * @param objData Payload object data
-     * @param systemId Audit system ID
+     * 
+     * @param ehrId       EHR ID of context
+     * @param objData     Payload object data
+     * @param systemId    Audit system ID
      * @param committerId Audit committer ID
      * @param description Optional audit description text
      * @return {@link T} typed response wrapped in {@link Optional}
@@ -55,22 +60,24 @@ public interface VersionedObjectService<T extends Locatable, U> {
      * @param audit
      * @return {@link T} typed response wrapped in {@link Optional}
      */
-    Optional<U> create(UUID ehrId, T objData, UUID contribution, UUID audit);
+    Optional<U> create(UUID ehrId, T objData, String x_user, UUID contribution, UUID audit);
 
     /**
      * Creation with default audit meta-data. Will create a new ad-hoc contribution.
-     * @param ehrId EHR ID of context
+     * 
+     * @param ehrId   EHR ID of context
      * @param objData Payload object data
      * @return {@link T} typed response wrapped in {@link Optional}
      */
-    Optional<U> create(UUID ehrId, T objData);
+    Optional<U> create(UUID ehrId, T objData, String x_user);
 
     /**
      * Update with given audit meta-data. Will create a new ad-hoc contribution.
-     * @param ehrId EHR ID of context
+     * 
+     * @param ehrId       EHR ID of context
      * @param targetObjId ID of target object
-     * @param objData Payload object data
-     * @param systemId Audit system ID
+     * @param objData     Payload object data
+     * @param systemId    Audit system ID
      * @param committerId Audit committer ID
      * @param description Optional audit description text
      * @return {@link T} typed response wrapped in {@link Optional}
@@ -91,23 +98,25 @@ public interface VersionedObjectService<T extends Locatable, U> {
      * @param audit
      * @return {@link T} typed response wrapped in {@link Optional}
      */
-    Optional<U> update(UUID ehrId, ObjectVersionId targetObjId, T objData, UUID contribution, UUID audit);
+    Optional<U> update(UUID ehrId, ObjectVersionId targetObjId, T objData, String x_user, UUID contribution,
+            UUID audit);
 
     /**
      * Update with default audit meta-data. Will create a new ad-hoc contribution.
-     * @param ehrId EHR ID of context
+     * 
+     * @param ehrId       EHR ID of context
      * @param targetObjId ID of target object
-     * @param objData Payload object data
+     * @param objData     Payload object data
      * @return {@link T} typed response wrapped in {@link Optional}
      */
-    Optional<U> update(UUID ehrId, ObjectVersionId targetObjId, T objData);
+    Optional<U> update(UUID ehrId, ObjectVersionId targetObjId, T objData, String x_user);
 
     /**
      * Deletion with given audit meta-data. Will create a new ad-hoc contribution.
      *
-     * @param ehrId EHR ID of context
+     * @param ehrId       EHR ID of context
      * @param targetObjId ID of target object
-     * @param systemId Audit system ID
+     * @param systemId    Audit system ID
      * @param committerId Audit committer ID
      * @param description Optional audit description text
      */
@@ -124,13 +133,13 @@ public interface VersionedObjectService<T extends Locatable, U> {
      * @param contribution Contribution for operation
      * @param audit
      */
-    void delete(UUID ehrId, ObjectVersionId targetObjId, UUID contribution, UUID audit);
+    void delete(UUID ehrId, ObjectVersionId targetObjId, String x_user, UUID contribution, UUID audit);
 
     /**
      * Deletion with default audit meta-data. Will create a new ad-hoc contribution.
      *
-     * @param ehrId EHR ID of context
+     * @param ehrId       EHR ID of context
      * @param targetObjId ID of target object
      */
-    void delete(UUID ehrId, ObjectVersionId targetObjId);
+    void delete(UUID ehrId, ObjectVersionId targetObjId, String x_user);
 }

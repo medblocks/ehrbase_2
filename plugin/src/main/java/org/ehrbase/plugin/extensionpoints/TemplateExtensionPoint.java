@@ -18,6 +18,8 @@
 package org.ehrbase.plugin.extensionpoints;
 
 import java.util.function.Function;
+
+import org.ehrbase.plugin.dto.TemplateWithXUser;
 import org.openehr.schemas.v1.OPERATIONALTEMPLATE;
 import org.pf4j.ExtensionPoint;
 
@@ -29,13 +31,13 @@ public interface TemplateExtensionPoint extends ExtensionPoint {
     /**
      * Intercept Template create
      *
-     * @param input {@link OPERATIONALTEMPLATE} to be created
+     * @param input {@link TemplateWithXUser} to be created
      * @param chain next Extension Point
      * @return templateId of the created template
      * @see <a href="I_EHR_COMPOSITION in openEHR Platform Service
      * Model">https://specifications.openehr.org/releases/SM/latest/openehr_platform.html#_i_ehr_composition_interface</a>
      */
-    default String aroundCreation(OPERATIONALTEMPLATE input, Function<OPERATIONALTEMPLATE, String> chain) {
+    default String aroundCreation(TemplateWithXUser input, Function<TemplateWithXUser, String> chain) {
         return chain.apply(input);
     }
 }

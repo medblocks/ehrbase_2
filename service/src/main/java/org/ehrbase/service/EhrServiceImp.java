@@ -92,8 +92,7 @@ public class EhrServiceImp implements EhrService {
     }
 
     @Override
-    public UUID create(UUID ehrId, EhrStatus status) {
-
+    public UUID create(UUID ehrId, EhrStatus status, String x_user) {
         check(status);
 
         ehrId = Optional.ofNullable(ehrId).orElseGet(UuidGenerator::randomUUID);
@@ -148,7 +147,7 @@ public class EhrServiceImp implements EhrService {
 
     @Override
     public ObjectVersionId updateStatus(
-            UUID ehrId, EhrStatus status, ObjectVersionId ifMatch, UUID contributionId, UUID audit) {
+            UUID ehrId, EhrStatus status, String x_user, ObjectVersionId ifMatch, UUID contributionId, UUID audit) {
 
         // pre-step: check for valid ehrId
         if (!hasEhr(ehrId)) {

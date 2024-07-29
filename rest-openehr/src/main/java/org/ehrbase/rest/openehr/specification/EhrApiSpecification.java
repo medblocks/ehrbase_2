@@ -63,6 +63,7 @@ public interface EhrApiSpecification {
             String openehrVersion,
             String openehrAuditDetails,
             String prefer,
+            String x_user,
             @Parameter(hidden = true, allowEmptyValue = true) EhrStatus ehrStatus);
 
     @Operation(
@@ -114,7 +115,7 @@ public interface EhrApiSpecification {
                             url =
                                     "https://specifications.openehr.org/releases/ITS-REST/1.0.3/ehr.html#tag/EHR/operation/ehr_get_by_id"))
     ResponseEntity<EhrResponseData> createEhrWithId(
-            String openehrVersion, String openehrAuditDetails, String prefer, String ehrIdString, EhrStatus ehrStatus);
+            String openehrVersion, String openehrAuditDetails, String prefer, String ehrIdString,String x_user, EhrStatus ehrStatus);
 
     @Operation(
             summary = "Get EHR by id",

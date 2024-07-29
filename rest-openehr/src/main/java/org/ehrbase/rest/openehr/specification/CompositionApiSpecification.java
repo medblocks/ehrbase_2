@@ -28,79 +28,47 @@ import org.springframework.http.ResponseEntity;
 @SuppressWarnings("java:S107")
 public interface CompositionApiSpecification {
 
-    @Operation(
-            summary = "Create composition",
-            externalDocs =
-                    @ExternalDocumentation(
-                            url =
-                                    "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-post"))
-    ResponseEntity createComposition(
-            String openehrVersion,
-            String openehrAuditDetails,
-            String contentType,
-            String accept,
-            String prefer,
-            String ehrIdString,
-            String templateId,
-            @Parameter(
-                            description = "Composition format",
-                            schema =
-                                    @Schema(
-                                            type = "string",
-                                            allowableValues = {"JSON", "XML", "STRUCTURED", "FLAT"}))
-                    String format,
-            String composition);
+        @Operation(summary = "Create composition", externalDocs = @ExternalDocumentation(url = "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-post"))
+        ResponseEntity createComposition(
+                        String openehrVersion,
+                        String openehrAuditDetails,
+                        String contentType,
+                        String accept,
+                        String prefer,
+                        String ehrIdString,
+                        String templateId,
+                        @Parameter(description = "Composition format", schema = @Schema(type = "string", allowableValues = {
+                                        "JSON", "XML", "STRUCTURED", "FLAT" })) String format,
+                        String x_user,
+                        String composition);
 
-    @Operation(
-            summary = "Update composition",
-            externalDocs =
-                    @ExternalDocumentation(
-                            url =
-                                    "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-put"))
-    ResponseEntity updateComposition(
-            String openehrVersion,
-            String openehrAuditDetails,
-            String contentType,
-            String accept,
-            String prefer,
-            String ifMatch,
-            String ehrIdString,
-            String versionedObjectUidString,
-            String templateId,
-            @Parameter(
-                            description = "Composition format",
-                            schema =
-                                    @Schema(
-                                            type = "string",
-                                            allowableValues = {"JSON", "XML", "STRUCTURED", "FLAT"}))
-                    String format,
-            String composition);
+        @Operation(summary = "Update composition", externalDocs = @ExternalDocumentation(url = "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-put"))
+        ResponseEntity updateComposition(
+                        String openehrVersion,
+                        String openehrAuditDetails,
+                        String contentType,
+                        String accept,
+                        String prefer,
+                        String ifMatch,
+                        String ehrIdString,
+                        String versionedObjectUidString,
+                        String templateId,
+                        @Parameter(description = "Composition format", schema = @Schema(type = "string", allowableValues = {
+                                        "JSON", "XML", "STRUCTURED", "FLAT" })) String format,
+                        String x_user,
+                        String composition);
 
-    @Operation(
-            summary = "Delete composition",
-            externalDocs =
-                    @ExternalDocumentation(
-                            url =
-                                    "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-delete"))
-    ResponseEntity deleteComposition(
-            String openehrVersion, String openehrAuditDetails, String ehrIdString, String precedingVersionUid);
+        @Operation(summary = "Delete composition", externalDocs = @ExternalDocumentation(url = "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-delete"))
+        ResponseEntity deleteComposition(
+                        String openehrVersion, String openehrAuditDetails, String ehrIdString,
+                        String precedingVersionUid, String x_user);
 
-    @Operation(
-            summary = "Get composition at time",
-            externalDocs =
-                    @ExternalDocumentation(
-                            url =
-                                    "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-get"))
-    ResponseEntity getComposition(
-            String accept,
-            String ehrIdString,
-            String versionedObjectUid,
-            @Parameter(
-                            description = "Composition format",
-                            schema =
-                                    @Schema(
-                                            type = "string",
-                                            allowableValues = {"JSON", "XML", "STRUCTURED", "FLAT"}))
-                    String format,
-            String versionAtTime);
+        @Operation(summary = "Get composition at time", externalDocs = @ExternalDocumentation(url = "https://specifications.openehr.org/releases/ITS-REST/latest/ehr.html#composition-composition-get"))
+        ResponseEntity getComposition(
+                        String accept,
+                        String ehrIdString,
+                        String versionedObjectUid,
+                        @Parameter(description = "Composition format", schema = @Schema(type = "string", allowableValues = {
+                                        "JSON", "XML", "STRUCTURED", "FLAT" })) String format,
+                        String versionAtTime);
 }

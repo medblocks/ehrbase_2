@@ -209,17 +209,17 @@ public class ContributionServiceImp implements ContributionService {
         switch (changeType) {
             case CREATION ->
             // call creation of a new composition with given input
-            compositionService.create(ehrId, versionRmObject, contributionId, audit);
+            compositionService.create(ehrId, versionRmObject,null, contributionId, audit);
             case AMENDMENT,
                     // triggers the same processing as modification
                     // :TODO-396: so far so good, but should use the type "AMENDMENT" for audit in access layer
                     MODIFICATION ->
             // call modification of the given composition
-            compositionService.update(ehrId, version.getPrecedingVersionUid(), versionRmObject, contributionId, audit);
+            compositionService.update(ehrId, version.getPrecedingVersionUid(), versionRmObject,null, contributionId, audit);
             case DELETED ->
             // case of deletion change type, but request also has payload
             // :TODO: should that be even allowed? specification-wise it's not forbidden)
-            compositionService.delete(ehrId, version.getPrecedingVersionUid(), contributionId, audit);
+            compositionService.delete(ehrId, version.getPrecedingVersionUid(),null, contributionId, audit);
             case SYNTHESIS, UNKNOWN -> throw new ValidationException(ERR_UNSUP_CHANGE_TYPE.formatted(changeType));
         }
     }
@@ -250,7 +250,7 @@ public class ContributionServiceImp implements ContributionService {
                 // triggers the same processing as modification
                 // TODO-396: so far so good, but should use the type "AMENDMENT" for audit in access layer
             case AMENDMENT, MODIFICATION -> ehrService.updateStatus(
-                    ehrId, versionRmObject, version.getPrecedingVersionUid(), contributionId, audit);
+                    ehrId, versionRmObject,null, version.getPrecedingVersionUid(), contributionId, audit);
             case DELETED ->
             // deleting a STATUS versioned object is invalid
             throw new ValidationException("Invalid change type. EHR_STATUS cannot be deleted.");
@@ -346,13 +346,13 @@ public class ContributionServiceImp implements ContributionService {
         if (compositionService.exists(objectUid)) {
             UUID audit =
                     contributionRepository.createAudit(version.getCommitAudit(), AuditDetailsTargetType.COMPOSITION);
-            compositionService.delete(ehrId, version.getPrecedingVersionUid(), contributionId, audit);
+            compositionService.delete(ehrId, version.getPrecedingVersionUid(),null, contributionId, audit);
 
             // FOLDER?
         } else if (isFolderPresent(ehrId, version.getPrecedingVersionUid())) {
             UUID audit =
                     contributionRepository.createAudit(version.getCommitAudit(), AuditDetailsTargetType.EHR_FOLDER);
-            compositionService.delete(ehrId, version.getPrecedingVersionUid(), contributionId, audit);
+            compositionService.delete(ehrId, version.getPrecedingVersionUid(),null, contributionId, audit);
         } else {
             throw new ObjectNotFoundException(
                     "COMPOSITION|FOLDER", "Could not find Object[id: %s]".formatted(objectUid));

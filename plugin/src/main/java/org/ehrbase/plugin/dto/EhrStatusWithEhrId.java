@@ -29,10 +29,15 @@ public class EhrStatusWithEhrId {
 
     private final EhrStatus ehrStatus;
     private final UUID ehrId;
-
+    private String x_user;
     public EhrStatusWithEhrId(EhrStatus ehrStatus, UUID ehrId) {
         this.ehrStatus = ehrStatus;
         this.ehrId = ehrId;
+    }
+    public EhrStatusWithEhrId(EhrStatus ehrStatus, UUID ehrId, String x_user) {
+        this.ehrStatus = ehrStatus;
+        this.ehrId = ehrId;
+        this.x_user = x_user;
     }
 
     public EhrStatus getEhrStatus() {
@@ -64,5 +69,8 @@ public class EhrStatusWithEhrId {
     @Override
     public int hashCode() {
         return Objects.hash(ehrStatus, ehrId);
+    }
+    public String getX_User(){
+        return x_user;
     }
 }

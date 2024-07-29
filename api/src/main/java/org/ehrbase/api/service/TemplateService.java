@@ -42,7 +42,7 @@ public interface TemplateService {
      */
     String findOperationalTemplate(String templateId, OperationalTemplateFormat format) throws RuntimeException;
 
-    String create(OPERATIONALTEMPLATE content);
+    String create(OPERATIONALTEMPLATE content, String x_user);
 
     /**
      * Deletes a given template from storage physically. The template is no longer available. If you

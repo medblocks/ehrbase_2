@@ -71,7 +71,7 @@ class OpenehrTemplateControllerTest {
     }
 
     private OpenehrTemplateController controller() {
-        doReturn(SAMPLE_ID).when(mockTemplateService).create(any());
+        doReturn(SAMPLE_ID).when(mockTemplateService).create(any(), null);
         doReturn(SAMPLE_OPT).when(mockTemplateService).findOperationalTemplate(any(), any());
         doReturn(SAMPLE_WEB_TEMPLATE).when(mockTemplateService).findTemplate(SAMPLE_ID);
         return spyController;
@@ -98,7 +98,7 @@ class OpenehrTemplateControllerTest {
     @ValueSource(strings = {"", "return=minimal", "return=representation"})
     void createTemplateADL1_4(String prefer) {
 
-        var response = controller().createTemplateClassic("1.0.3", null, prefer, SAMPLE_OPT);
+        var response = controller().createTemplateClassic("1.0.3", null, prefer,null, SAMPLE_OPT);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(response.getHeaders())
                 .containsEntry(HttpHeaders.CONTENT_TYPE, List.of(MediaType.APPLICATION_XML_VALUE));
@@ -117,7 +117,7 @@ class OpenehrTemplateControllerTest {
     void createTemplateADL1_4_OPTInvalidError() {
 
         OpenehrTemplateController controller = controller();
-        assertThatThrownBy(() -> controller.createTemplateClassic("1.0.3", null, null, "not a xml"))
+        assertThatThrownBy(() -> controller.createTemplateClassic("1.0.3", null, null, null,"not a xml"))
                 .isInstanceOf(InvalidApiParameterException.class)
                 .hasMessage("error: Content is not allowed in prolog.");
     }

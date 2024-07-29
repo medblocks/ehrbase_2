@@ -145,7 +145,7 @@ public class TemplateServiceImp implements TemplateService {
     }
 
     @Override
-    public String create(OPERATIONALTEMPLATE content) {
+    public String create(OPERATIONALTEMPLATE content, String x_user) {
         return this.knowledgeCacheService.addOperationalTemplate(content);
     }
 

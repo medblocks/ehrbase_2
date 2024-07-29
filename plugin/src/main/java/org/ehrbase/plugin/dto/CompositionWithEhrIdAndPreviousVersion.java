@@ -29,11 +29,17 @@ import java.util.UUID;
 public class CompositionWithEhrIdAndPreviousVersion extends CompositionWithEhrId {
 
     private final ObjectVersionId previousVersion;
-
+    private String x_user;
     public CompositionWithEhrIdAndPreviousVersion(
             Composition composition, ObjectVersionId previousVersion, UUID ehrId) {
         super(composition, ehrId);
         this.previousVersion = previousVersion;
+    }
+    public CompositionWithEhrIdAndPreviousVersion(
+            Composition composition, ObjectVersionId previousVersion, UUID ehrId, String x_user) {
+        super(composition, ehrId);
+        this.previousVersion = previousVersion;
+        this.x_user = x_user;
     }
 
     public ObjectVersionId getPreviousVersion() {
@@ -67,5 +73,8 @@ public class CompositionWithEhrIdAndPreviousVersion extends CompositionWithEhrId
                 + previousVersion
                 + "} "
                 + super.toString();
+    }
+    public String getX_User(){
+        return x_user;
     }
 }

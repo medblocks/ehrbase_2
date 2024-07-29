@@ -19,6 +19,8 @@ package org.ehrbase.plugin.extensionpoints;
 
 import com.nedap.archie.rm.changecontrol.OriginalVersion;
 import com.nedap.archie.rm.ehr.EhrStatus;
+import com.nedap.archie.rm.support.identification.ObjectVersionId;
+
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -57,7 +59,7 @@ public interface EhrExtensionPoint extends ExtensionPoint {
      * @see <a href="I_EHR_COMPOSITION in openEHR Platform Service
      *     Model">https://specifications.openehr.org/releases/SM/latest/openehr_platform.html#_i_ehr_service_interface</a>
      */
-    default UUID aroundUpdate(EhrStatusWithEhrId input, Function<EhrStatusWithEhrId, UUID> chain) {
+    default ObjectVersionId aroundUpdate(EhrStatusWithEhrId input, Function<EhrStatusWithEhrId, ObjectVersionId> chain) {
         return chain.apply(input);
     }
 

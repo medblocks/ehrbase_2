@@ -59,7 +59,7 @@ public class CompositionPluginAspect extends AbstractPluginAspect<CompositionExt
         return Optional.of(proceedWithPluginExtensionPoints(
                 pjp,
                 CompositionExtensionPoint::aroundCreation,
-                args -> new CompositionWithEhrId((Composition) args[1], (UUID) args[0]),
+                args -> new CompositionWithEhrId((Composition) args[1], (UUID) args[0], (String) args[2]),
                 (i, args) -> {
                     args[1] = i.getComposition();
                     args[0] = i.getEhrId();
@@ -83,11 +83,12 @@ public class CompositionPluginAspect extends AbstractPluginAspect<CompositionExt
                 pjp,
                 CompositionExtensionPoint::aroundUpdate,
                 args -> new CompositionWithEhrIdAndPreviousVersion(
-                        (Composition) args[2], (ObjectVersionId) args[1], (UUID) args[0]),
+                        (Composition) args[2], (ObjectVersionId) args[1], (UUID) args[0], (String) args[3]),
                 (i, args) -> {
                     args[2] = i.getComposition();
                     args[1] = i.getPreviousVersion();
                     args[0] = i.getEhrId();
+                    
                     return args;
                 },
                 ret -> ((Optional<UUID>) ret).orElseThrow()));
@@ -107,7 +108,7 @@ public class CompositionPluginAspect extends AbstractPluginAspect<CompositionExt
         proceedWithPluginExtensionPoints(
                 pjp,
                 CompositionExtensionPoint::aroundDelete,
-                args -> new CompositionVersionIdWithEhrId((ObjectVersionId) args[1], (UUID) args[0]),
+                args -> new CompositionVersionIdWithEhrId((ObjectVersionId) args[1], (UUID) args[0], (String)args[2]),
                 (i, args) -> {
                     args[1] = i.getVersionId();
                     args[0] = i.getEhrId();

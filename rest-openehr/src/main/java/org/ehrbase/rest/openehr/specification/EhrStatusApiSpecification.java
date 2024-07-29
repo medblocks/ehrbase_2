@@ -69,5 +69,5 @@ public interface EhrStatusApiSpecification {
                 @ApiResponse(responseCode = "412")
             })
     ResponseEntity<EhrStatusResponseData> updateEhrStatus(
-            UUID ehrId, String versionUid, String prefer, String accept, String contentType, EhrStatus ehrStatus);
+            UUID ehrId, String versionUid, String prefer, String accept, String contentType,String x_user, EhrStatus ehrStatus);
 }

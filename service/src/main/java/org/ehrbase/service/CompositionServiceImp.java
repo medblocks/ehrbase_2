@@ -98,13 +98,13 @@ public class CompositionServiceImp implements CompositionService {
     }
 
     @Override
-    public Optional<UUID> create(UUID ehrId, Composition objData, UUID contribution, UUID audit) {
+    public Optional<UUID> create(UUID ehrId, Composition objData, String x_user, UUID contribution, UUID audit) {
         UUID compositionId = createInternal(ehrId, objData, contribution, audit);
         return Optional.of(compositionId);
     }
 
     @Override
-    public Optional<UUID> create(UUID ehrId, Composition objData) {
+    public Optional<UUID> create(UUID ehrId, Composition objData, String x_user) {
         UUID compositionId = createInternal(ehrId, objData, null, null);
         return Optional.of(compositionId);
     }
@@ -181,14 +181,14 @@ public class CompositionServiceImp implements CompositionService {
 
     @Override
     public Optional<UUID> update(
-            UUID ehrId, ObjectVersionId targetObjId, Composition objData, UUID contribution, UUID audit) {
+            UUID ehrId, ObjectVersionId targetObjId, Composition objData,String x_user, UUID contribution, UUID audit) {
 
         var compoId = internalUpdate(ehrId, targetObjId, objData, contribution, audit);
         return Optional.of(compoId);
     }
 
     @Override
-    public Optional<UUID> update(UUID ehrId, ObjectVersionId targetObjId, Composition objData) {
+    public Optional<UUID> update(UUID ehrId, ObjectVersionId targetObjId, Composition objData, String x_user) {
         var compoId = internalUpdate(ehrId, targetObjId, objData, null, null);
         return Optional.of(compoId);
     }
@@ -255,12 +255,12 @@ public class CompositionServiceImp implements CompositionService {
     }
 
     @Override
-    public void delete(UUID ehrId, ObjectVersionId targetObjId, UUID contribution, UUID audit) {
+    public void delete(UUID ehrId, ObjectVersionId targetObjId,String x_user, UUID contribution, UUID audit) {
         internalDelete(ehrId, targetObjId, contribution, audit);
     }
 
     @Override
-    public void delete(UUID ehrId, ObjectVersionId targetObjId) {
+    public void delete(UUID ehrId, ObjectVersionId targetObjId, String x_user) {
         internalDelete(ehrId, targetObjId, null, null);
     }
 
@@ -504,4 +504,5 @@ public class CompositionServiceImp implements CompositionService {
 
         return compositionRepository.getOriginalVersionComposition(ehrUid, versionedObjectUid, version);
     }
+
 }
